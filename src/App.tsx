@@ -73,7 +73,7 @@ export const App = (): JSX.Element => {
 
                     return { minutes, seconds }
                 });
-            }, 10));
+            }, 1000));
         }
     }, [timerStarted]);
 
