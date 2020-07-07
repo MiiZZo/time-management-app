@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Progress, Button, InputNumber, Checkbox, Spin } from 'antd';
+import { Progress, Button, InputNumber, Checkbox, Spin, Slider } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
-import { SliderWithInput } from './components/molecules/slider';
+import { SliderWithInput } from './components/molecules/Slider';
 import CompleteAudioFile from './complete.mp3';
 import 'antd/dist/antd.css';
 import './App.css';
 
 const defaultTimeValues = {
     pomodoro: {
-        minutes: 10,
+        minutes: 25,
         seconds: 0
     },
     pause: {
@@ -48,7 +48,6 @@ export const App = (): JSX.Element => {
         }
         const potentialSoundOffStatus = window.localStorage.getItem('soundOff');
         if (potentialSoundOffStatus !== null) {
-            console.log(Boolean(Number(potentialSoundOffStatus)))
             setSoundOffStatus(Boolean(Number(potentialSoundOffStatus)));
         }
 
@@ -60,6 +59,7 @@ export const App = (): JSX.Element => {
             setIntervalID(setInterval(() => {
                 setTime(time => {
                     let { minutes, seconds } = time;
+                    
                     if (minutes <= 0 && seconds <= 0) {
                         handleChangePomodoroCount();
                     }
@@ -87,11 +87,13 @@ export const App = (): JSX.Element => {
                     return audioVolume;
                 });
             }
+
             return soundOff;
         });
     }
 
     const handleChangePomodoroCount = () => {
+        playAudio();
         setTimerType(timerType => {
             setPomodoroCount((pomodoroCount) => {
                 if (timerType === 'pomodoro') {          
@@ -115,7 +117,6 @@ export const App = (): JSX.Element => {
                 return pomodoroCount;
             });
 
-            playAudio();
             return timerType;
         });
     }
@@ -175,7 +176,7 @@ export const App = (): JSX.Element => {
     for (let key in timeValues) {
         if (key === 'pomodoro' || key === 'pause' || key === 'longPause') {
             inputs.push(
-                <>
+                <div key={key}>
                     <label>
                         Минуты для помидорки
                         <br />
@@ -187,7 +188,7 @@ export const App = (): JSX.Element => {
                             onChange={(value) => handleChangeTimeMinutes(key, value)}
                     />
                     </label>
-                </>
+                </div>
             );
         }
     }
@@ -236,9 +237,9 @@ export const App = (): JSX.Element => {
                     Отключить звук
                 </Checkbox>
             </div>
-            <div className="FormWrapper">
+            {/* <div className="FormWrapper">
                 {inputs}
-            </div>
+            </div> */}
         </div>
     )
 }
