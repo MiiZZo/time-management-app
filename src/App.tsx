@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Progress, Button, InputNumber, Checkbox, Spin, Slider } from 'antd';
+import { Progress, Button, InputNumber, Checkbox, Spin } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { SliderWithInput } from './components/molecules/Slider';
 import CompleteAudioFile from './complete.mp3';
+import tickAudioFile from './tick.mp3';
 import 'antd/dist/antd.css';
 import './App.css';
 
@@ -22,6 +23,7 @@ const defaultTimeValues = {
 }
 
 const audio = new Audio(CompleteAudioFile);
+const tickAudio = new Audio(tickAudioFile);
 
 export const App = (): JSX.Element => {
     const [timeValues, setTimeValues] = useState(defaultTimeValues);
@@ -33,6 +35,7 @@ export const App = (): JSX.Element => {
     const [soundOff, setSoundOffStatus] = useState(false);
     const [audioVolume, setAudioVolume] = useState(0.5);
     const [loading, setLoading] = useState(true);
+    const [audioPlaying, setAudioPlaying] = useState(false);
 
     useEffect(() => {
         window.onbeforeunload = () => {
@@ -59,7 +62,6 @@ export const App = (): JSX.Element => {
             setIntervalID(setInterval(() => {
                 setTime(time => {
                     let { minutes, seconds } = time;
-                    
                     if (minutes <= 0 && seconds <= 0) {
                         handleChangePomodoroCount();
                     }
@@ -77,13 +79,13 @@ export const App = (): JSX.Element => {
         }
     }, [timerStarted]);
 
-    const playAudio = () => {
+    const playAudioComplete = () => {
         setSoundOffStatus((soundOff) => {
             if (!soundOff) {
                 setAudioVolume((audioVolume) => {
                     audio.volume = audioVolume;
                     audio.play();
-
+                    
                     return audioVolume;
                 });
             }
@@ -92,8 +94,18 @@ export const App = (): JSX.Element => {
         });
     }
 
+    const togglePlayAudioTick = () => {
+        if (!audioPlaying) {
+            tickAudio.loop = true;
+            tickAudio.volume = audioVolume;
+            tickAudio.play();   
+        } else {
+            tickAudio.pause();
+        }
+    }
+
     const handleChangePomodoroCount = () => {
-        playAudio();
+        playAudioComplete();
         setTimerType(timerType => {
             setPomodoroCount((pomodoroCount) => {
                 if (timerType === 'pomodoro') {          
@@ -133,11 +145,16 @@ export const App = (): JSX.Element => {
         if (intervalID) {
             clearInterval(intervalID);
             setTimerStarted(false);
+            setTime(timeValues.pomodoro);
+            setAudioPlaying(false);
+            togglePlayAudioTick();
         }
     }
+
     const startTimer = () => {
         setTimerStarted(true);
     }
+
     const handleChangeTimeMinutes = (name: string, value: string | number | undefined) => {
         if (value !== undefined) {
             setTimeValues({...timeValues, [name]: {
@@ -148,12 +165,27 @@ export const App = (): JSX.Element => {
     }
 
     const handleChangeSoundOnStatus = (e: CheckboxChangeEvent) => {
-        setSoundOffStatus(!soundOff);
+        
+        setSoundOffStatus((soundOff) => {
+            if (!soundOff) {
+                setAudioPlaying(false);
+                audio.pause();
+                tickAudio.pause();
+            }
+
+            return !soundOff;
+        });
     }
 
     const handleChangeAudioVolume = (value: string | number | undefined) => {
         if (value) {
-            setAudioVolume(+value / 100);
+            setAudioVolume((audioVolume) => {
+                const newAudioVolume = +value / 100;
+                tickAudio.volume = newAudioVolume;
+                audio.volume = newAudioVolume;
+
+                return newAudioVolume;
+            });
         }
     }
     
@@ -191,6 +223,11 @@ export const App = (): JSX.Element => {
                 </div>
             );
         }
+    }
+
+    if (timerStarted && !audioPlaying && !soundOff) {
+        setAudioPlaying(true);
+        togglePlayAudioTick();
     }
 
     if (loading) {
@@ -234,7 +271,8 @@ export const App = (): JSX.Element => {
                     className="ToggleSoundButton"
                     onChange={handleChangeSoundOnStatus}
                 >
-                    Отключить звук
+                    Отключить звук 
+                    <br />(Оповещание об окончании времени не будет отключено)
                 </Checkbox>
             </div>
             {/* <div className="FormWrapper">
