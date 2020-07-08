@@ -38,6 +38,10 @@ module.exports = {
             '@public': join(__dirname, 'public')
         }
     },
+    devServer: {
+        port: 3000,
+        historyApiFallback: true
+    },
     optimization: optimization(),
     plugins: [
         new HTMLWebpackPlugin({

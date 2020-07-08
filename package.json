@@ -2,8 +2,11 @@
   "private": true,
   "version": "0.0.0",
   "dependencies": {
+    "@ant-design/icons": "^4.2.1",
     "antd": "^4.4.0",
     "cross-env": "^7.0.2",
+    "effector": "^21.0.3",
+    "effector-react": "^21.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
