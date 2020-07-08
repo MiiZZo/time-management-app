@@ -1,13 +1,12 @@
 import React from 'react';
-import { InputNumber, Slider } from 'antd';
-import { SliderValue } from 'antd/lib/slider';
+import { Slider as SliderComponent } from 'antd';
 
 interface Props {
     audioVolume: number,
     onChange: ((value: string | number | undefined) => void)
 }
 
-export const SliderWithInput = (props: Props) => {
+export const Slider = (props: Props) => {
     const {
         audioVolume,
         onChange
@@ -15,11 +14,11 @@ export const SliderWithInput = (props: Props) => {
     
     return (
         <>
-            <Slider
+            <SliderComponent
                 className="Slider"
                 min={0}
                 max={100}
-                onChange={onChange as ((value: SliderValue) => void)}
+                onChange={onChange as ((value: number) => void)}
                 value={audioVolume}
             />
         </>

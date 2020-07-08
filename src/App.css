@@ -14,11 +14,21 @@ body, html, #root {
     max-width: 300px;
     padding: 0 25px;
     margin-top: 30px;
+    margin-bottom: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     animation: opacity 1s;
+}
+
+.Organaizer {
+
+}
+
+.Organaizer-Container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .StartButton {

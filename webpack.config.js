@@ -34,14 +34,15 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.ts', '.tsx'],
         alias: {
-            '@components': join(__dirname, 'src', 'components')
+            '@components': join(__dirname, 'src', 'components'),
+            '@public': join(__dirname, 'public')
         }
     },
     optimization: optimization(),
     plugins: [
         new HTMLWebpackPlugin({
             minify: isProd,
-            template: join(__dirname, 'src', 'index.html')
+            template: join(__dirname, 'public', 'index.html')
         }),
         new MiniCssExtractPlugin({
             filename: 'style.css'
