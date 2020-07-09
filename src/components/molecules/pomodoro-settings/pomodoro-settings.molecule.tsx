@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { InputNumber, Switch, Form, Button, Slider, message } from 'antd';
+import { cn } from '@bem-react/classname';
 import { Service } from '../../../service';
+import './pomodoro-settings.scss';
 
+const cnPomodoroSettings = cn('PomodoroSettings');
 const service = new Service();
 message.config({
     duration: 2,
@@ -19,7 +22,7 @@ const PomodoroSettings = () => {
         if (values !== null) {
             const { soundVolume, soundOff, pomodoro, pause, longPause } = values;
             const state = {
-                soundVolume,
+                soundVolume: soundVolume / 100,
                 soundOff,
                 minutesCount: {
                     pomodoro, 
@@ -55,7 +58,7 @@ const PomodoroSettings = () => {
                     label={labelText}
                 >
                     <InputNumber
-                        className="Input"
+                        className={cnPomodoroSettings('Input')}
                         min={1}
                         max={60}
                     />
@@ -65,7 +68,7 @@ const PomodoroSettings = () => {
     }
 
     const formInitialValues = {
-        soundVolume: state.soundVolume,
+        soundVolume: state.soundVolume * 100,
         soundOff: state.soundOff,
         pomodoro: state.minutesCount.pomodoro,
         pause: state.minutesCount.pause,
@@ -73,33 +76,34 @@ const PomodoroSettings = () => {
     }
 
     return (
-        <>
-            <Form
-                onFinish={handleSubmitChanges}
-                initialValues={formInitialValues}
-                layout="vertical"
-            >
-                <Form.Item
-                    name="soundVolume"
-                    label="Громкость звука"
+        <div className={cnPomodoroSettings()}>
+            <div className={cnPomodoroSettings('Container')}>
+                <Form
+                    onFinish={handleSubmitChanges}
+                    initialValues={formInitialValues}
+                    layout="vertical"
                 >
-                    <Slider min={0} max={100} />
-                </Form.Item>
-                <Form.Item
-                    name="soundOff"
-                    label="Отключить звук"
-                >
-                    <Switch defaultChecked={state.soundOff}/>
-                </Form.Item>
-                {inputs}
-                <Form.Item>
-                    <Button block htmlType="submit" type="primary">Сохранить изменения</Button>
-                </Form.Item>
-            </Form>
-        </>
+                    <Form.Item
+                        name="soundVolume"
+                        label="Громкость звука"
+                    >
+                        <Slider min={0} max={100} />
+                    </Form.Item>
+                    <Form.Item
+                        name="soundOff"
+                        label="Отключить звук"
+                    >
+                        <Switch defaultChecked={state.soundOff}/>
+                    </Form.Item>
+                    {inputs}
+                    <Form.Item>
+                        <Button block htmlType="submit" type="primary">Сохранить изменения</Button>
+                    </Form.Item>
+                </Form>
+            </div>
+        </div>
     )
 }
-
 
 export {
     PomodoroSettings

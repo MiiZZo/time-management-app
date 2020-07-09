@@ -1,5 +1,5 @@
-import { Pomodoro } from '@components/organisms/Pomodoro/pomodoro.organism';
-import { PomodoroSettings } from '@components/organisms/Pomodoro/pomodoro-settings.organism';
+import { PomodoroSettings } from '@components/molecules/pomodoro-settings/pomodoro-settings.molecule';
+import { PomodoroPage } from '@components/pages/pomodoro.page';
 
 interface Route {
     name: string
@@ -12,7 +12,7 @@ const routes: Route[] = [
     {
         name: 'pomodoro',
         path: '/pomodoro',
-        component: Pomodoro,
+        component: PomodoroPage,
         exact: true
     },
     {

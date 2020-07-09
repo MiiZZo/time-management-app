@@ -1,60 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { Progress, Button, Checkbox, Spin, Radio } from 'antd';
-import { SettingOutlined, HomeOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import { Slider } from '../../molecules/Slider';
+import { Progress, Button, Input } from 'antd';
+import { PlayCircleFilled } from '@ant-design/icons';
+import { cn } from '@bem-react/classname';
+import { Service } from '../../../service';
+import './pomodoro.scss';
 import CompleteAudioFile from '@public/complete.mp3';
 import tickAudioFile from '@public/tick.mp3';
 
-const defaultTimeValues = {
-    pomodoro: {
-        minutes: 25,
-        seconds: 0
-    },
-    pause: {
-        minutes: 5,
-        seconds: 0
-    },
-    longPause: {
-        minutes: 30,
-        seconds: 0
-    }
-}
-
+const cnPomodoro = cn('Pomodoro');
+const service = new Service();
 const audio = new Audio(CompleteAudioFile);
 const tickAudio = new Audio(tickAudioFile);
 
 export const Pomodoro = (): JSX.Element => {
-    const [timeValues, setTimeValues] = useState(defaultTimeValues);
-    const [time, setTime] = useState(defaultTimeValues.pomodoro);
+    const [{ soundOff, soundVolume, minutesCount }] = service.useStore();
+    const timeValues = {
+        pomodoro: {
+            minutes: minutesCount.pomodoro,
+            seconds: 0
+        },
+        pause: {
+            minutes: minutesCount.pause,
+            seconds: 0
+        },
+        longPause: {
+            minutes: minutesCount.longPause,
+            seconds: 0
+        }
+    }
+
+    const [time, setTime] = useState(timeValues.pomodoro);
     const [timerStarted, setTimerStarted] = useState(false);
     const [timerType, setTimerType] = useState<'pomodoro' | 'pause' | 'long pause'>('pomodoro');
     const [intervalID, setIntervalID] = useState<NodeJS.Timeout | null>(null);
     const [pomodoroCount, setPomodoroCount] = useState(0);
-    // const [soundOff, setSoundOffStatus] = useState(false);
-    const [audioVolume, setAudioVolume] = useState(0.5);
-    const [loading, setLoading] = useState(true);
     const [audioPlaying, setAudioPlaying] = useState(false);
-
-    // useEffect(() => {
-    //     window.onbeforeunload = () => {
-    //         localStorage.setItem('volume', audioVolume.toString());
-    //         localStorage.setItem('soundOff', soundOff ? '1' : '0');
-    //     }
-    // });
-
-    useEffect(() => {
-        const potentialAudioVolume = window.localStorage.getItem('volume');
-        if (potentialAudioVolume !== null) {
-            setAudioVolume(+potentialAudioVolume);
-        }
-        const potentialSoundOffStatus = window.localStorage.getItem('soundOff');
-        if (potentialSoundOffStatus !== null) {
-            // setSoundOffStatus(Boolean(Number(potentialSoundOffStatus)));
-        }
-
-        setLoading(false);
-    }, []);
+    const [taskName, setTaskName] = useState('');
 
     useEffect(() => {
         if (timerStarted) {
@@ -78,25 +59,18 @@ export const Pomodoro = (): JSX.Element => {
         }
     }, [timerStarted]);
 
-    // const playAudioComplete = () => {
-    //     setSoundOffStatus((soundOff) => {
-    //         if (!soundOff) {
-    //             setAudioVolume((audioVolume) => {
-    //                 audio.volume = audioVolume;
-    //                 audio.play();
-                    
-    //                 return audioVolume;
-    //             });
-    //         }
-
-    //         return soundOff;
-    //     });
-    // }
+    const playAudioComplete = () => {
+        if (!soundOff) {
+            audio.volume = soundVolume;
+            audio.play();
+        }
+    }
 
     const togglePlayAudioTick = () => {
         if (!audioPlaying) {
+            setAudioPlaying(true);
             tickAudio.loop = true;
-            tickAudio.volume = audioVolume;
+            tickAudio.volume = soundVolume;
             tickAudio.play();   
         } else {
             tickAudio.pause();
@@ -104,7 +78,7 @@ export const Pomodoro = (): JSX.Element => {
     }
 
     const handleChangePomodoroCount = () => {
-        // playAudioComplete();
+        playAudioComplete();
         setTimerType(timerType => {
             setPomodoroCount((pomodoroCount) => {
                 if (timerType === 'pomodoro') {          
@@ -154,16 +128,8 @@ export const Pomodoro = (): JSX.Element => {
         setTimerStarted(true);
     }
 
-    const handleChangeAudioVolume = (value: string | number | undefined) => {
-        if (value) {
-            setAudioVolume(() => {
-                const newAudioVolume = +value / 100;
-                tickAudio.volume = newAudioVolume;
-                audio.volume = newAudioVolume;
-
-                return newAudioVolume;
-            });
-        }
+    const handleChangeTaskName = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTaskName(e.target.value);
     }
 
     let percent: null | number = null;
@@ -180,36 +146,20 @@ export const Pomodoro = (): JSX.Element => {
             break
     }
 
-    // if (timerStarted && !audioPlaying && !soundOff) {
-    //     setAudioPlaying(true);
-    //     togglePlayAudioTick();
-    // }
-
-    if (loading) {
-        return (
-            <div className="Container">
-                <Spin />
-            </div>
-        )
+    if (timerStarted && !audioPlaying && !soundOff) {
+        togglePlayAudioTick();
     }
 
     return (
-        <div className=''>
-            <Radio.Group value="pomodoro" >
-                <Link to="pomodoro">
-                    <Radio.Button value="pomodoro">
-                        <HomeOutlined />
-                    </Radio.Button>
-                </Link>
-                <Link to="pomodoro-settings">
-                    <Radio.Button value="pomodoro-settings">
-                        <SettingOutlined />
-                    </Radio.Button>
-                </Link>
-            </Radio.Group>
-
-            <h1>Задача - {Math.random()}</h1>
-                <h3>Номер помидорки - {pomodoroCount + 1}</h3>
+        <div className={cnPomodoro()}>
+            <div className={cnPomodoro('Container')}>
+            {
+                timerStarted ?
+                <p className={cnPomodoro('TaskName')}>{taskName}</p> 
+                :
+                <Input placeholder="Что вам нужно сделать?" value={taskName} onChange={handleChangeTaskName}/>
+            }
+                <h3 className={cnPomodoro('PomodoroNumber')}>Номер помидорки - {pomodoroCount + 1}</h3>
                 <Progress
                     strokeColor={timerType === 'pomodoro' ? undefined : 'orange'}
                     type="circle"
@@ -220,29 +170,13 @@ export const Pomodoro = (): JSX.Element => {
                 />
                 <Button 
                     block
-                    className='StartButton' 
+                    className={cnPomodoro('StartButton')} 
                     onClick={handleToggleTimerStatus} 
                     type="primary"
                 >
                     { timerStarted ? 'Сбросить' :  'Начать' }
                 </Button>
-                <div className="SliderWrapper">
-                    <label>
-                        Громкость звука
-                        <Slider
-                            audioVolume={Math.floor(audioVolume * 100)}
-                            onChange={handleChangeAudioVolume}
-                        />
-                    </label>
-                    {/* <Checkbox
-                        checked={soundOff}
-                        className="ToggleSoundButton"
-                        onChange={handleChangeSoundOnStatus}
-                    >
-                        Отключить звук 
-                        <br />(Оповещание об окончании времени не будет отключено)
-                    </Checkbox> */}
-                </div>
+            </div>
         </div>
     )
 }

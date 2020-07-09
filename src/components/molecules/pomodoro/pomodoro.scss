@@ -1,0 +1,21 @@
+.Pomodoro {
+    &-Container {
+        max-width: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    &-StartButton {
+        margin-top: 25px;
+    }
+    &-PomodoroNumber {
+        margin-top: 15px;
+        margin-bottom: 25px;
+    }
+    &-TaskName {
+        max-width: 300px;
+        text-overflow: ellipsis;
+        overflow:hidden;
+    }
+}
