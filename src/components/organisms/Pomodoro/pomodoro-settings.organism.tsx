@@ -9,7 +9,6 @@ const PomodoroSettings = () => {
     const handleSubmitChanges = (values: any) => {
         if (values !== null) {
             const { soundVolume, soundOff, pomodoro, pause, longPause } = values;
-            console.log(values);
             const state = {
                 soundVolume,
                 soundOff,
@@ -55,10 +54,18 @@ const PomodoroSettings = () => {
         }
     }
 
+    const formInitialValues = {
+        soundVolume: state.soundVolume,
+        soundOff: state.soundOff,
+        pomodoro: state.minutesCount.pomodoro,
+        pause: state.minutesCount.pause,
+        longPause: state.minutesCount.longPause
+    }
+
     return (
         <Form
             onFinish={handleSubmitChanges}
-            initialValues={state}
+            initialValues={formInitialValues}
             layout="vertical"
         >
             <Form.Item

@@ -35,7 +35,6 @@ export class Service {
     }
 
     reducer = (_state: State, action: any) => {
-        console.log(action)
         const state: State = action.state;
 
         for (let key in action.state) {
@@ -45,10 +44,14 @@ export class Service {
                     switch (key) {
                         case 'soundVolume':
                             this.changeSoundVolume(newValue);
+                            break
                         case 'soundOff':
+                            console.log(newValue);
                             this.changeSoundOffValue(newValue);
+                            break
                         case 'minutesCount':
                             this.changeMinutesCount(newValue);
+                            break
                     }
                 }
             }
@@ -80,15 +83,15 @@ export class Service {
             }
         }
 
-        // for (let key in state) {
-        //     let potentialValue = this.model.getItem(key);
-        //     if (
-        //         (key === 'soundVolume' || key === 'minutesCount' || key === 'minutesCount')
-        //         && potentialValue !== null
-        //     ) {
-        //         state[key] = potentialValue;
-        //     }
-        // }
+        for (let key in state) {
+            let potentialValue = this.model.getItem(key);
+            if (
+                (key === 'soundVolume' || key === 'minutesCount' || key === 'minutesCount')
+                && potentialValue !== null
+            ) {
+                state[key] = potentialValue;
+            }
+        }
 
         return state;
     }
