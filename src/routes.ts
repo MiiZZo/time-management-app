@@ -4,7 +4,8 @@ import { PomodoroSettings } from '@components/organisms/Pomodoro/pomodoro-settin
 interface Route {
     name: string
     path: string
-    component: React.FC<{}>
+    component: React.ComponentClass<any, any> 
+    | React.FunctionComponent<any> 
     exact: boolean
 }
 

@@ -1,6 +1,6 @@
-import { createEvent, createEffect } from 'effector';
+import { observable, action } from 'mobx';
 
-export const toggleSoundOff = createEvent('toggleSoundOff');
-export const changeSoundVolume = createEvent<number>('changeSoundVolume');
-export const incrementPomodoroNumber = createEvent('incrementPomodoroNumber');
-export const resetPomodoroNumber = createEvent('resetPomodoroNumber');
+export class Pomodoro {
+    @observable 
+    soundOff: boolean = false
+}

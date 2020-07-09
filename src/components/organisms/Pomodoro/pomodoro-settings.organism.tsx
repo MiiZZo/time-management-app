@@ -1,89 +1,87 @@
-import React, { useState } from 'react';
-import { InputNumber, Switch, Form, Button } from 'antd';
+import React from 'react';
+import { InputNumber, Switch, Form, Button, Slider } from 'antd';
+import { Service } from '../../../service';
 
-export const PomodoroSettings = () => {
-    const [timeValues, setTimeValues] = useState();
+const service = new Service();
 
-    // const handleChangeTimeMinutes = (name: string, value: string | number | undefined) => {
-    //     if (value !== undefined) {
-    //         setTimeValues({...timeValues, [name]: {
-    //             minutes: +value,
-    //             seconds: 0
-    //         }});
-    //     }
-    // }
+const PomodoroSettings = () => {
+    const [state, dispatcher] = service.useStore();
+    const handleSubmitChanges = (values: any) => {
+        if (values !== null) {
+            const { soundVolume, soundOff, pomodoro, pause, longPause } = values;
+            console.log(values);
+            const state = {
+                soundVolume,
+                soundOff,
+                minutesCount: {
+                    pomodoro, 
+                    pause, 
+                    longPause
+                }
+            }
+            dispatcher({ state });
+        }
+    }
 
-    // const handleChangeSoundOnStatus = (e: CheckboxChangeEvent) => {
-    //     setSoundOffStatus((soundOff) => {
-    //         if (!soundOff) {
-    //             setAudioPlaying(false);
-    //             audio.pause();
-    //             tickAudio.pause();
-    //         }
+    let inputs: JSX.Element[] = [];
 
-    //         return !soundOff;
-    //     });
-    // }
+    for (let key in state.minutesCount) {
+        if (key === 'pomodoro' || key === 'pause' || key === 'longPause') {
+            let labelText = 'Минуты для';
+            switch (key) {
+                case 'pomodoro':
+                    labelText = `${labelText} помидорки`
+                    break
+                case 'pause':
+                    labelText = `${labelText} короткой паузы`
+                    break
+                case 'longPause':
+                    labelText = `${labelText} длинной паузы`
+                    break
+            }
 
-    // let inputs: JSX.Element[] = [];
+            inputs.push(
+                <Form.Item
+                    name={key}
+                    label={labelText}
+                >
+                    <InputNumber
+                        className="Input"
+                        min={1}
+                        max={60}
+                    />
+                </Form.Item>
+            );
+        }
+    }
 
-    // for (let key in timeValues) {
-    //     if (key === 'pomodoro' || key === 'pause' || key === 'longPause') {
-    //         let labelText = 'Минуты для';
-
-    //         switch (key) {
-    //             case 'pomodoro':
-    //                 labelText = `${labelText} Помидорки`
-    //                 break
-    //             case 'pause':
-    //                 labelText = `${labelText} короткой паузы`
-    //                 break
-    //             case 'longPause':
-    //                 labelText = `${labelText} длинной паузы`
-    //                 break
-    //         }
-
-    //         inputs.push(
-    //             <Form.Item
-    //                 name={key}
-    //                 label={labelText}
-    //             >
-    //                 <InputNumber
-    //                     className="Input"
-    //                     min={1}
-    //                     max={60}
-    //                 />
-    //             </Form.Item>
-    //         );
-    //     }
-    // }
-
-    let formInitialValues = {
-        pomodoro: 25,
-        longPause: 0,
-        pause: 0
-    };
-
-    // for (let key in timeValues) {
-    //     if (key === 'pomodoro' || key === 'pause' || key === 'longPause') {
-    //         formInitialValues[key] = timeValues[key].minutes;
-    //     }
-    // }
-    
     return (
         <Form
-            onFinish={(values: any) => console.log(values)}
-            layout="horizontal"
+            onFinish={handleSubmitChanges}
+            initialValues={state}
+            layout="vertical"
         >
+            <Form.Item
+                name="soundVolume"
+                label="Громкость звука"
+            >
+                <Slider min={0} max={100} />
+            </Form.Item>
             <Form.Item
                 name="soundOff"
                 label="Отключить звук"
             >
                 <Switch />
             </Form.Item>
+            {inputs}
             <Form.Item>
                 <Button block htmlType="submit" type="primary">Сохранить изменения</Button>
             </Form.Item>
         </Form>
     )
+}
+
+
+export {
+    PomodoroSettings
 }
