@@ -19,26 +19,19 @@ let minutesCountValue: State['minutesCount'] = {
     longPause: 30
 }
 
-const initialState: State = {
-    soundOff: soundOffValue,
-    soundVolume: soundVolumeValue,
-    minutesCount: minutesCountValue
-}
-
 export class Service {
     constructor(
         private model = new Model()
     ) {}
 
     useStore = () => {
-        return useReducer(this.reducer, this.initState());
+        return useReducer(this.reducer, this.initializeState());
     }
 
     reducer = (_state: State, action: any) => {
         const state: State = action.state;
-
-        for (let key in action.state) {
-            if (key === 'soundOff' || key === 'soundVolume' || key === 'minutesCount') {
+        let key: keyof State;
+        for (key in (action.state as State)) {
                 if (_state[key] !== action.state[key]) {
                     const newValue = action.state[key];
                     switch (key) {
@@ -54,7 +47,7 @@ export class Service {
                             break
                     }
                 }
-            }
+
         }
 
         return state;
@@ -72,7 +65,7 @@ export class Service {
         this.model.setItem('minutes', minutesCount);
     }
 
-    initState = () => {
+    initializeState = () => {
         const state: State = {
             soundVolume: 0.5,
             soundOff: false,
@@ -82,17 +75,14 @@ export class Service {
                 longPause: 30
             }
         }
-
-        for (let key in state) {
-            let potentialValue = this.model.getItem(key);
-            if (
-                (key === 'soundVolume' || key === 'minutesCount' || key === 'minutesCount')
-                && potentialValue !== null
-            ) {
-                state[key] = potentialValue;
-            }
+        const soundVolume = this.model.getItem('soundVolume');
+        const soundOff = this.model.getItem('soundOff');
+        const minutesCount = this.model.getItem('minutes');
+        
+        return {
+            soundVolume,
+            soundOff,
+            minutesCount
         }
-
-        return state;
     }
 }

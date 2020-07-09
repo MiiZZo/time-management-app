@@ -1,11 +1,20 @@
-import React from 'react';
-import { InputNumber, Switch, Form, Button, Slider } from 'antd';
+import React, { useEffect } from 'react';
+import { InputNumber, Switch, Form, Button, Slider, message } from 'antd';
 import { Service } from '../../../service';
 
 const service = new Service();
+message.config({
+    duration: 2,
+    maxCount: 3,
+});
 
 const PomodoroSettings = () => {
     const [state, dispatcher] = service.useStore();
+
+    useEffect(() => {
+        document.title = 'Настройки'
+    }, []);
+
     const handleSubmitChanges = (values: any) => {
         if (values !== null) {
             const { soundVolume, soundOff, pomodoro, pause, longPause } = values;
@@ -19,6 +28,7 @@ const PomodoroSettings = () => {
                 }
             }
             dispatcher({ state });
+            message.success('Изменения успешно сохранены')
         }
     }
 
@@ -63,28 +73,30 @@ const PomodoroSettings = () => {
     }
 
     return (
-        <Form
-            onFinish={handleSubmitChanges}
-            initialValues={formInitialValues}
-            layout="vertical"
-        >
-            <Form.Item
-                name="soundVolume"
-                label="Громкость звука"
+        <>
+            <Form
+                onFinish={handleSubmitChanges}
+                initialValues={formInitialValues}
+                layout="vertical"
             >
-                <Slider min={0} max={100} />
-            </Form.Item>
-            <Form.Item
-                name="soundOff"
-                label="Отключить звук"
-            >
-                <Switch />
-            </Form.Item>
-            {inputs}
-            <Form.Item>
-                <Button block htmlType="submit" type="primary">Сохранить изменения</Button>
-            </Form.Item>
-        </Form>
+                <Form.Item
+                    name="soundVolume"
+                    label="Громкость звука"
+                >
+                    <Slider min={0} max={100} />
+                </Form.Item>
+                <Form.Item
+                    name="soundOff"
+                    label="Отключить звук"
+                >
+                    <Switch defaultChecked={state.soundOff}/>
+                </Form.Item>
+                {inputs}
+                <Form.Item>
+                    <Button block htmlType="submit" type="primary">Сохранить изменения</Button>
+                </Form.Item>
+            </Form>
+        </>
     )
 }
 
