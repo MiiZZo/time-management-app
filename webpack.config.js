@@ -5,7 +5,7 @@ const TerserWebpackPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const { join } = require('path');
 
-const isDev = process.env.WEBPACK_MODE === 'development';
+const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
 
 const optimization = () => {
@@ -66,7 +66,8 @@ module.exports = {
                     MiniCssExtractPlugin.loader,
                     'css-loader',
                     'sass-loader'
-                ]
+                ],
+                exclude: /node_modules/
             },
             {
                 test: /\.mp3/,

@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { NavMenu } from "@components/organisms/nav-menu/nav-menu.organism";
 import { routes } from "./routes";
 import "./App.scss";
 
@@ -13,10 +12,7 @@ const Routes = routes.map((route) => {
 export const App = (): JSX.Element => {
   return (
     <Router>
-      <div>
-        <NavMenu />
-        <Switch>{Routes}</Switch>
-      </div>
+      <Switch>{Routes}</Switch>
     </Router>
   );
 };

@@ -35,9 +35,9 @@ const PomodoroSettings = () => {
     }
   };
 
-  let inputs: JSX.Element[] = [];
+  const inputs: JSX.Element[] = [];
 
-  for (let key in state.minutesCount) {
+  for (const key in state.minutesCount) {
     if (key === "pomodoro" || key === "pause" || key === "longPause") {
       let labelText = "Минуты для";
       switch (key) {

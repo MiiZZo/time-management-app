@@ -6,7 +6,7 @@ interface Props {
   onChange: (value: string | number | undefined) => void;
 }
 
-export const Slider = (props: Props) => {
+export const Slider = (props: Props): JSX.Element => {
   const { audioVolume, onChange } = props;
 
   return (

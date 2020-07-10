@@ -11,9 +11,9 @@ interface State {
   };
 }
 
-let soundVolumeValue = 0.5;
-let soundOffValue = false;
-let minutesCountValue: State["minutesCount"] = {
+const soundVolumeValue = 0.5;
+const soundOffValue = false;
+const minutesCountValue: State["minutesCount"] = {
   pomodoro: 25,
   pause: 5,
   longPause: 30,

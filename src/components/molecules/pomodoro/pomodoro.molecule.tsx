@@ -78,20 +78,23 @@ export const Pomodoro = (): JSX.Element => {
     if (timerStarted) {
       setIntervalID(
         setInterval(() => {
-          let { minutes, seconds } = time;
-          if (minutes <= 0 && seconds <= 0) {
-            handleChangePomodoroCount();
-          }
-          if (seconds <= 0) {
-            seconds = 59;
-            minutes = minutes - 1;
-          }
-          seconds = seconds - 1;
-          setTime({ minutes, seconds });
+          setTime((time) => {
+            let { minutes, seconds } = time;
+            if (minutes <= 0 && seconds <= 0) {
+              handleChangePomodoroCount();
+            }
+            if (seconds <= 0) {
+              seconds = 59;
+              minutes = minutes - 1;
+            }
+            seconds = seconds - 1;
+            console.log(minutes, seconds);
+            return { minutes, seconds };
+          });
         }, 1000),
       );
     }
-  }, [timerStarted, handleChangePomodoroCount, time]);
+  }, [timerStarted]);
 
   const togglePlayAudioTick = () => {
     if (!audioPlaying) {

@@ -40,10 +40,10 @@
     "webpack-dev-server": "^3.11.0"
   },
   "scripts": {
-    "dev": "cross-env WEBPACK_MODE=development webpack-dev-server --mode development --open",
-    "build": "cross-env WEBPACK_MODE=production webpack --mode production",
-    "start": "serve -s dist -l process.env.PORT",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --mode development --open",
+    "build": "cross-env NODE_ENV=production webpack --mode production",
+    "start": "serve -s dist",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" ",
-    "lint": "eslint \"{src}/**/*.ts\" \"{src}/**/*.tsx\" --fix"
+    "lint": "eslint \"src/**/*.ts\" \"src/**/*.tsx\" --fix"
   }
 }
