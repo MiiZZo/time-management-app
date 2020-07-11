@@ -1,5 +1,6 @@
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
+import { TodoList } from './user.interface';
 
 @Schema()
 export class User extends Document {
@@ -8,6 +9,33 @@ export class User extends Document {
 
   @Prop()
   password!: string;
+  
+  // @Prop({
+  //   type: [String],
+  //   default: []
+  // })
+  // drafts!: string[];
+
+  // @Prop({
+  //   type: [{
+  //     date: String,
+  //     todos: [
+  //       {
+  //         title: String,
+  //         completed: Boolean
+  //       }
+  //     ],
+  //     fullyCompleted: Boolean
+  //   }],
+  //   default: []
+  // })
+  // todosLists!: TodoList[]
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.methods = {
+  validatePassword: function () {
+    console.log(UserSchema);
+  }
+}

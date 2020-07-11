@@ -5,7 +5,7 @@ interface Todo {
   completed: boolean;
 }
 
-interface TodoList {
+export interface TodoList {
   date: string;
   todos: Todo[];
   fullCompleted: boolean;

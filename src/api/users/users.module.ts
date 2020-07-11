@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
-import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseModule } from "@nestjs/mongoose";
 import { UsersService } from "./users.service";
 import { UsersController } from "./users.controller";
-import { User, UserSchema } from './users.schema';
+import { User, UserSchema } from "./users.schema";
 
 @Module({
   imports: [
@@ -11,13 +11,13 @@ import { User, UserSchema } from './users.schema';
         name: User.name,
         useFactory: () => {
           const schema = UserSchema;
-          schema.pre('save', () => console.log('Hello from pre save'));
+          schema.pre("save", () => console.log("Hello from pre save"));
           return schema;
-        },
-      },
-    ]),
+        }
+      }
+    ])
   ],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService]
 })
 export class UsersModule {}

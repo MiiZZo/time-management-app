@@ -7,9 +7,12 @@ import { AppController } from "./app.controller";
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: path.join(__dirname, '../../.env') }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: path.join(__dirname, "../../.env")
+    }),
     MongooseModule.forRoot(
-      `mongodb+srv://${'admin'}:${'11197811'}@cluster0-obnfg.mongodb.net/${'test'}?retryWrites=true&w=majority`,
+      `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0-obnfg.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
       {
         useNewUrlParser: true,
         useFindAndModify: true,
