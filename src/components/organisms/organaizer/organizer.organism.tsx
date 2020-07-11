@@ -6,10 +6,10 @@ import {
   CheckCircleOutlined,
   MehOutlined,
   FrownOutlined,
-  SmileOutlined,
+  SmileOutlined
 } from "@ant-design/icons";
 import moment from "moment";
-import { TodoList } from './todo-list';
+import { TodoList } from "./todo-list";
 
 const localeMonths = [
   "Январь",
@@ -23,7 +23,7 @@ const localeMonths = [
   "Сентябрь",
   "Октябрь",
   "Ноябрь",
-  "Декабрь",
+  "Декабрь"
 ];
 
 export const Organizer = (): JSX.Element => {
@@ -63,7 +63,7 @@ export const Organizer = (): JSX.Element => {
                       key={`${index}`}
                     >
                       {localeMonths[index]}
-                    </Select.Option>,
+                    </Select.Option>
                   );
                 }
                 const month = value.month();
@@ -74,7 +74,7 @@ export const Organizer = (): JSX.Element => {
                   options.push(
                     <Select.Option key={i} value={i} className="year-item">
                       {localeMonths[i]}
-                    </Select.Option>,
+                    </Select.Option>
                   );
                 }
                 return (
@@ -127,15 +127,17 @@ export const Organizer = (): JSX.Element => {
           </div>
         </Col>
         <Col span={8}>
-          <TodoList 
+          <TodoList
             data={{
               date: selectedDate,
               fullComplete: false,
               procentComplete: 0,
-              todos: [{ title: 'asdfasdfasdf', complete: true }]
+              todos: [{ title: "asdfasdfasdf", complete: true }]
             }}
             handleToggleComplete={() => {}}
-            handleChangeTodoTitle={(e: React.ChangeEvent<HTMLInputElement>) => {console.log(e.target.value)}}
+            handleChangeTodoTitle={(e: React.ChangeEvent<HTMLInputElement>) => {
+              console.log(e.target.value);
+            }}
           />
         </Col>
       </Row>
@@ -151,7 +153,7 @@ function dateCellRender(date: moment.Moment) {
   if (now > date) {
     const potentialValueProcent = Math.random();
     procent = Math.floor(
-      (potentialValueProcent > 0 ? potentialValueProcent : 0) * 100,
+      (potentialValueProcent > 0 ? potentialValueProcent : 0) * 100
     );
     preview = <MehOutlined style={{ color: "orange", fontSize: 25 }} />;
     if (procent <= 30) {
@@ -168,7 +170,7 @@ function dateCellRender(date: moment.Moment) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        flexDirection: "column",
+        flexDirection: "column"
       }}
     >
       {preview}

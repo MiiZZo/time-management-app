@@ -16,16 +16,16 @@ export const Pomodoro = (): JSX.Element => {
   const timeValues = {
     pomodoro: {
       minutes: minutesCount.pomodoro,
-      seconds: 0,
+      seconds: 0
     },
     pause: {
       minutes: minutesCount.pause,
-      seconds: 0,
+      seconds: 0
     },
     longPause: {
       minutes: minutesCount.longPause,
-      seconds: 0,
-    },
+      seconds: 0
+    }
   };
 
   const [time, setTime] = useState(timeValues.pomodoro);
@@ -91,7 +91,7 @@ export const Pomodoro = (): JSX.Element => {
             console.log(minutes, seconds);
             return { minutes, seconds };
           });
-        }, 1000),
+        }, 1000)
       );
     }
   }, [timerStarted]);

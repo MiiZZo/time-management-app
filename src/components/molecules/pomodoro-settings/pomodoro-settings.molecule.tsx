@@ -8,7 +8,7 @@ const cnPomodoroSettings = cn("PomodoroSettings");
 const service = new Service();
 message.config({
   duration: 2,
-  maxCount: 3,
+  maxCount: 3
 });
 
 const PomodoroSettings = () => {
@@ -27,8 +27,8 @@ const PomodoroSettings = () => {
         minutesCount: {
           pomodoro,
           pause,
-          longPause,
-        },
+          longPause
+        }
       };
       dispatcher({ state });
       message.success("Изменения успешно сохранены");
@@ -59,7 +59,7 @@ const PomodoroSettings = () => {
             min={1}
             max={60}
           />
-        </Form.Item>,
+        </Form.Item>
       );
     }
   }
@@ -69,7 +69,7 @@ const PomodoroSettings = () => {
     soundOff: state.soundOff,
     pomodoro: state.minutesCount.pomodoro,
     pause: state.minutesCount.pause,
-    longPause: state.minutesCount.longPause,
+    longPause: state.minutesCount.longPause
   };
 
   return (

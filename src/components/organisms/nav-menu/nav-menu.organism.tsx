@@ -9,7 +9,7 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   SettingOutlined,
-  UserOutlined,
+  UserOutlined
 } from "@ant-design/icons";
 import { cn } from "@bem-react/classname";
 import "./nav-menu.scss";

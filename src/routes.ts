@@ -14,20 +14,20 @@ const routes: Route[] = [
     name: "organaizer",
     path: "/organaizer",
     component: Organaizer,
-    exact: true,
+    exact: true
   },
   {
     name: "pomodoro",
     path: "/pomodoro",
     component: PomodoroPage,
-    exact: true,
+    exact: true
   },
   {
     name: "pomodoroSettings",
     path: "/pomodoro-settings",
     component: PomodoroSettings,
-    exact: true,
-  },
+    exact: true
+  }
 ];
 
 export { routes };

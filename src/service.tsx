@@ -16,7 +16,7 @@ const soundOffValue = false;
 const minutesCountValue: State["minutesCount"] = {
   pomodoro: 25,
   pause: 5,
-  longPause: 30,
+  longPause: 30
 };
 
 export class Service {
@@ -69,8 +69,8 @@ export class Service {
       minutesCount: {
         pomodoro: 25,
         pause: 5,
-        longPause: 30,
-      },
+        longPause: 30
+      }
     };
     const soundVolume = this.model.getItem("soundVolume");
     const soundOff = this.model.getItem("soundOff");
@@ -79,7 +79,7 @@ export class Service {
     return {
       soundVolume,
       soundOff,
-      minutesCount,
+      minutesCount
     };
   };
 }
