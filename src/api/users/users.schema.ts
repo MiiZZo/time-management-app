@@ -1,6 +1,6 @@
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
-import { TodoList } from './user.interface';
+import { TodoList } from "./user.interface";
 
 @Schema()
 export class User extends Document {
@@ -9,7 +9,7 @@ export class User extends Document {
 
   @Prop()
   password!: string;
-  
+
   // @Prop({
   //   type: [String],
   //   default: []
@@ -33,9 +33,3 @@ export class User extends Document {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
-UserSchema.methods = {
-  validatePassword: function () {
-    console.log(UserSchema);
-  }
-}
