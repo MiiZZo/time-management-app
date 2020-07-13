@@ -1,0 +1,11 @@
+@keyframes opacity-mount-animation {
+
+    0% {
+        transition: 0.3s;
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

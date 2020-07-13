@@ -1,0 +1,22 @@
+.PomodoroPage {
+
+    &-Wrapper {
+        width: 100%;
+        display: flex;
+        padding-top: 100px;
+        justify-content: center;
+        animation: animate 1s;
+    }
+}
+
+@keyframes animate {
+
+    0% {
+        transition: 0.3s;
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

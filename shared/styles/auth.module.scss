@@ -1,0 +1,15 @@
+@import './opacity-mount-animation.scss';
+
+.Auth {
+
+    &-Wrapper {
+        animation: opacity-mount-animation 1s;
+        max-width: 300px;
+        margin: 100px auto 0 auto;
+        padding: 0 45px;
+    }
+    
+    &-Title {
+        text-align: center;
+    }
+}
