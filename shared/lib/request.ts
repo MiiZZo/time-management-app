@@ -3,8 +3,8 @@ type RequestMethod = "GET" | "POST" | "UPDATE" | "DELETE" | "PUT";
 export const request = async (
   url: string,
   method: RequestMethod = "GET",
-  body: any | null = null,
-): Promise<any> => {
+  body: any | null = null
+): Promise<any | never> => {
   const headers = new Headers();
   if (body !== null) {
     headers.set("Content-Type", "application/json");
@@ -21,6 +21,5 @@ export const request = async (
     throw new Error(errorMessage);
   }
 
-  const data = await response.json();
-  return data;
+  return await response.json();
 };

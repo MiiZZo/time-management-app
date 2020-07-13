@@ -29,13 +29,4 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": [
-    "**/*.tsx",
-    "**/*.ts",
-    "**/*d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "api"
-  ]
 }

@@ -2,10 +2,16 @@ import React from "react";
 import { Form, Input, Button, Tooltip } from "antd";
 import { QuestionOutlined } from "@ant-design/icons";
 
-export const Register = () => {
+interface Props {
+  onSubmitForm: (data: any) => void 
+}
+
+export const Register = ({ onSubmitForm }: Props): JSX.Element => {
   return (
     <div>
-      <Form>
+      <Form
+        onFinish={onSubmitForm}
+      >
         <Form.Item
           name="email"
           hasFeedback
