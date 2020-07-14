@@ -3,7 +3,8 @@ import Head from "next/head";
 import { message } from "antd";
 import { Register } from "@components/molecules/register.molecule";
 import Layout from "@components/layout";
-import styles from "@client:shared/styles/auth.module.scss";
+import styles from "@shared/styles/auth.module.scss";
+import { register } from "@shared/api/register";
 
 message.config({
   maxCount: 3
@@ -22,23 +23,17 @@ export default function RegisterPage() {
   useEffect(() => {
     if (isSubmitting) {
       const fetchData = async () => {
-        try {
-          const response = await fetch("http://localhost:5000/auth/register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-            body: JSON.stringify(formData)
-          });
-          if (!response.ok) {
-            const error = await response.json();
-            return message.error(error.message);
-          }
-          message.success('Регистрация прошла успешно. Теперь вы можете войти, используя введеные данные.');
-        } catch (e) {
-          
+        const data = await register(formData);
+        if (data.error !== null) {
+          message.error(data.error);
+        } else {
+          message.success(
+            "Регистрация прошла успешно. Теперь вы можете войти, используя введеные данные."
+          );
         }
+        setIsSubmitting(false);
       };
+
       fetchData();
     }
   }, [isSubmitting, formData]);
@@ -52,7 +47,7 @@ export default function RegisterPage() {
         {error ? null : null}
         <div className={styles["Auth-Wrapper"]}>
           <h1 className={styles["Auth-Title"]}>Регистрация</h1>
-          <Register onSubmitForm={handleSubmitForm}/>
+          <Register onSubmitForm={handleSubmitForm} />
         </div>
       </Layout>
     </>

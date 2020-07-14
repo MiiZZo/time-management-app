@@ -3,15 +3,13 @@ import { Form, Input, Button, Tooltip } from "antd";
 import { QuestionOutlined } from "@ant-design/icons";
 
 interface Props {
-  onSubmitForm: (data: any) => void 
+  onSubmitForm: (data: any) => void;
 }
 
 export const Register = ({ onSubmitForm }: Props): JSX.Element => {
   return (
     <div>
-      <Form
-        onFinish={onSubmitForm}
-      >
+      <Form onFinish={onSubmitForm}>
         <Form.Item
           name="email"
           hasFeedback

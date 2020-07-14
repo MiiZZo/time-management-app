@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import Layout from "@components/layout";
 import { Login } from "@components/molecules/login.molecule";
-import styles from "@client:shared/styles/auth.module.scss";
+import styles from "@shared/styles/auth.module.scss";
 
 export default function LoginPage() {
   return (
